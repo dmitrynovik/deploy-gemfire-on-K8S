@@ -10,6 +10,7 @@ gemfire_version="9.15.0"
 cluster_name="gemfire-cluster"
 create_role_binding=1
 install_helm=1
+install_cert_manager=1
 
 while [ $# -gt 0 ]; do
 
@@ -49,9 +50,14 @@ $kubectl create secret docker-registry image-pull-secret --namespace=$namespace 
 if [ $create_role_binding -eq 1 ]
 then
      echo "CREATE ROLE BINDING"
-     kubectl create rolebinding psp-gemfire --namespace=$namespace \
+     $kubectl create rolebinding psp-gemfire --namespace=$namespace \
           --clusterrole=psp:vmware-system-privileged --serviceaccount=$namespace:default \
           --dry-run=client -o yaml | $kubectl apply -f-
+fi
+
+if [ $install_cert_manager -eq 1 ]
+then
+     $kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
 fi
 
 if [ $install_helm -eq 1 ]
@@ -68,7 +74,7 @@ helm registry login -u $vmwareuser -p $vmwarepassword registry.tanzu.vmware.com
 helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-crd" --version $operator_version --destination ./
 helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-operator" --version $operator_version --destination ./
 
-echo "CREATE $clustername CLUSTER"
+echo "INSTALL GEMFIRE OPERATOR"
 helm install gemfire-crd "gemfire-crd-$operator_version.tgz" --namespace $namespace --set operatorReleaseName=gemfire-operator
 helm install gemfire-operator "gemfire-operator-$operator_version.tgz" --namespace $namespace
 helm ls --namespace $namespace
@@ -79,6 +85,7 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml image="imageregistry.pivotal.io/tanzu-gemfire-for-kubernetes/gemfire-k8s:$gemfire_version" \
      | $kubectl --namespace=$namespace apply -f-
 
+$kubectl -n $namespace get GemFireClusters
 
 
 

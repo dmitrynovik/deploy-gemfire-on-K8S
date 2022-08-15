@@ -4,4 +4,5 @@ apiVersion: gemfire.tanzu.vmware.com/v1
 kind: GemFireCluster
 metadata:
     name: #@ data.values.cluster_name
+spec:
     image: #@ data.values.image
