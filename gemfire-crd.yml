@@ -8,3 +8,8 @@ spec:
     image:    #@ data.values.image
     servers:  #@ data.values.servers
     replicas: #@ data.values.replicas
+    #@ if data.values.persistent == 1:
+    persistence:
+        storageClassName: #@ data.values.storageclassname
+        storage: #@ data.values.storage
+    #@ end

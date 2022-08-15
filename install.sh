@@ -13,6 +13,8 @@ install_helm=1
 install_cert_manager=1
 servers=1
 replicas=1
+storage=1Gi
+storageclassname=""
 
 while [ $# -gt 0 ]; do
 
@@ -40,6 +42,8 @@ then
      echo "vmwarepassword not set"
      exit 1
 fi
+
+if [ -z $storageclassname ]; then persistent=0; else persistent=1; fi
 
 echo "CREATE NAMESPACE $namespace if it does not exist..."
 $kubectl create namespace $namespace --dry-run=client -o yaml | $kubectl apply -f-
@@ -87,6 +91,9 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml image="imageregistry.pivotal.io/tanzu-gemfire-for-kubernetes/gemfire-k8s:$gemfire_version" \
      --data-value-yaml servers=$servers \
      --data-value-yaml replicas=$replicas \
+     --data-value-yaml storage=$storage \
+     --data-value-yaml storageclassname=$storageclassname \
+     --data-value-yaml persistent=$persistent \
      | $kubectl --namespace=$namespace apply -f-
 
 $kubectl -n $namespace get GemFireClusters
