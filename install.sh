@@ -39,22 +39,12 @@ echo "CREATE NAMESPACE $namespace if it does not exist..."
 $kubectl create namespace $namespace --dry-run=client -o yaml | $kubectl apply -f-
 
 echo "CREATE DOCKER REGISTRY SECRET"
-$kubectl create secret docker-registry image-pull-secret --namespace=$namespace --docker-server=$registry --docker-username="$vmwareuser" --docker-password="$vmwarepassword"
+$kubectl create secret docker-registry image-pull-secret --namespace=$namespace --docker-server=$registry --docker-username="$vmwareuser" --docker-password="$vmwarepassword" --dry-run=client -o yaml | $kubectl apply -f-
 
 echo "CREATE $clustername CLUSTER"
 ytt -f gemfire-crd.yml \
      --data-value-yaml cluster_name=$cluster_name \
      --data-value-yaml image="imageregistry.pivotal.io/tanzu-gemfire-for-kubernetes/gemfire-k8s:$version" \
-    #  --data-value-yaml rabbitmq.maxskew=$maxskew \
-    #  --data-value-yaml rabbitmq.persistent=$persistent \
-    #  --data-value-yaml rabbitmq.storageclassname=$storageclassname \
-    #  --data-value-yaml rabbitmq.storage=$storage \
-    #  --data-value-yaml rabbitmq.cpu=$cpu \
-    #  --data-value-yaml rabbitmq.memory=$memory \
-    #  --data-value-yaml rabbitmq.default_pass=$adminpassword \
-    #  --data-value-yaml openshift=$openshift \
-    #  --data-value-yaml servicetype=$servicetype \
-    #  --data-value-yaml tls_secret=$tls_secret \
      | $kubectl --namespace=$namespace apply -f-
 
 
