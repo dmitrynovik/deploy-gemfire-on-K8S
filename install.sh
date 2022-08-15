@@ -43,7 +43,7 @@ $kubectl create secret docker-registry image-pull-secret --namespace=$namespace 
 
 echo "CREATE $clustername CLUSTER"
 ytt -f gemfire-crd.yml \
-     --data-value-yaml cluster-name=$cluster_name \
+     --data-value-yaml cluster_name=$cluster_name \
      --data-value-yaml image="imageregistry.pivotal.io/tanzu-gemfire-for-kubernetes/gemfire-k8s:$version" \
     #  --data-value-yaml rabbitmq.maxskew=$maxskew \
     #  --data-value-yaml rabbitmq.persistent=$persistent \
