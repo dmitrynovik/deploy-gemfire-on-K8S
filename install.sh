@@ -2,7 +2,7 @@ set -eo pipefail
 
 # Parameters with default values (can override):
 serviceaccount=rabbitmq
-namespace="rabbitmq-system"
+namespace="tanzu-gemfire"
 kubectl=kubectl
 registry="registry.pivotal.io"
 version="9.15.1"
@@ -36,7 +36,7 @@ then
 fi
 
 echo "CREATE NAMESPACE $namespace if it does not exist..."
-$kubectl create namespace tanzu-gemfire --dry-run=client -o yaml | $kubectl apply -f-
+$kubectl create namespace $namespace --dry-run=client -o yaml | $kubectl apply -f-
 
 echo "CREATE DOCKER REGISTRY SECRET"
 $kubectl create secret docker-registry image-pull-secret --namespace=$namespace --docker-server=$registry --docker-username="$vmwareuser" --docker-password="$vmwarepassword"
