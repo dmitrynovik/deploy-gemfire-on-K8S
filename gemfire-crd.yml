@@ -15,8 +15,8 @@ spec:
     #@ end
     resources:
         requests:
-        cpu: #@ data.values.cpu
-        memory: #@ data.values.memory
+            cpu: #@ data.values.cpu
+            memory: #@ data.values.memory
         limits:
-        cpu: #@ data.values.cpu
-        memory: #@ data.values.memory
+            cpu: #@ data.values.cpu
+            memory: #@ data.values.memory
