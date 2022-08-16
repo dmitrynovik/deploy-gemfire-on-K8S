@@ -6,7 +6,7 @@ metadata:
     name: #@ data.values.cluster_name
 spec:
     image:    #@ data.values.image
-    servers:  #@ data.values.servers
+    # servers:  #@ data.values.servers
     #@ if data.values.persistent == 1:
     persistence:
         storageClassName: #@ data.values.storageclassname
