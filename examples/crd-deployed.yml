@@ -1,7 +1,5 @@
 Name:         gemfire-cluster
 Namespace:    tanzu-gemfire
-Labels:       <none>
-Annotations:  <none>
 API Version:  gemfire.vmware.com/v1
 Kind:         GemFireCluster
   Creation Timestamp:  2022-08-16T11:04:06Z
