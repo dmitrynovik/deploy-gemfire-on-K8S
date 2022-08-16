@@ -1,7 +1,7 @@
 set -eo pipefail
 
 # Parameters with default values (can override):
-serviceaccount=rabbitmq
+serviceaccount=default
 namespace="tanzu-gemfire"
 kubectl=kubectl
 registry="registry.tanzu.vmware.com"
@@ -17,6 +17,10 @@ storage="1Gi"
 storageclassname=""
 memory="1Gi"
 cpu=1
+
+max_unavailable=1
+service_type=ClusterIP
+antiaffinity=0
 
 while [ $# -gt 0 ]; do
 
@@ -59,7 +63,7 @@ if [ $create_role_binding -eq 1 ]
 then
      echo "CREATE ROLE BINDING"
      $kubectl create rolebinding psp-gemfire --namespace=$namespace \
-          --clusterrole=psp:vmware-system-privileged --serviceaccount=$namespace:default \
+          --clusterrole=psp:vmware-system-privileged --serviceaccount=$namespace:$serviceaccount \
           --dry-run=client -o yaml | $kubectl apply -f-
 fi
 

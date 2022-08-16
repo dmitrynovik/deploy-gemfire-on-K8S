@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: production-ready-gemfire
+spec:
+  maxUnavailable: #@ data.values.max_unavailable
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tanzu-rabbitmq
