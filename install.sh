@@ -84,16 +84,19 @@ then
     helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-operator" --version $operator_version --destination ./
 
     echo "INSTALL GEMFIRE OPERATOR"
+    set +e
     helm install gemfire-crd "gemfire-crd-$operator_version.tgz" --namespace $namespace --set operatorReleaseName=gemfire-operator
     helm install gemfire-operator "gemfire-operator-$operator_version.tgz" --namespace $namespace
     helm ls --namespace $namespace
+    set -eo pipefail
 fi
 
+# echo "WAIT FOR gemfire-controller-manager TO BE READY"
+# $kubectl wait pods -n $namespace -l app.kubernetes.io/component=gemfire-controller-manager \
+#      --for condition=Ready --timeout $wait_pod_timeout
+# sleep 5
+
 echo "CREATE $clustername CLUSTER"
-
-$kubectl wait pods -n $namespace -l app.kubernetes.io/component=gemfire-controller-manager \
-     --for condition=Ready --timeout $wait_pod_timeout
-
 ytt -f gemfire-crd.yml \
      --data-value-yaml cluster_name=$cluster_name \
      --data-value-yaml image="registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:$gemfire_version" \
