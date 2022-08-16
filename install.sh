@@ -94,7 +94,6 @@ fi
 # echo "WAIT FOR gemfire-controller-manager TO BE READY"
 # $kubectl wait pods -n $namespace -l app.kubernetes.io/component=gemfire-controller-manager \
 #      --for condition=Ready --timeout $wait_pod_timeout
-# sleep 5
 
 echo "CREATE $clustername CLUSTER"
 ytt -f gemfire-crd.yml \
