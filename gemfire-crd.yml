@@ -5,4 +5,4 @@ kind: GemFireCluster
 metadata:
     name: #@ data.values.cluster_name
 spec:
-    image:    #@ data.values.image
+    image: #@ data.values.image
