@@ -11,6 +11,7 @@ cluster_name="gemfire-cluster"
 create_role_binding=1
 install_helm=1
 install_cert_manager=1
+install_operator=1
 servers=1
 storage=1Gi
 storageclassname=""
@@ -73,16 +74,19 @@ then
      ./get_helm.sh
 fi
 
-echo "CONNECTING TO REGISTRY: $registry"
-export HELM_EXPERIMENTAL_OCI=1
-helm registry login -u $vmwareuser -p $vmwarepassword registry.tanzu.vmware.com
-helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-crd" --version $operator_version --destination ./
-helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-operator" --version $operator_version --destination ./
+if [ $install_operator -eq 1 ]
+then
+    echo "CONNECTING TO REGISTRY: $registry"
+    export HELM_EXPERIMENTAL_OCI=1
+    helm registry login -u $vmwareuser -p $vmwarepassword registry.tanzu.vmware.com
+    helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-crd" --version $operator_version --destination ./
+    helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-operator" --version $operator_version --destination ./
 
-echo "INSTALL GEMFIRE OPERATOR"
-helm install gemfire-crd "gemfire-crd-$operator_version.tgz" --namespace $namespace --set operatorReleaseName=gemfire-operator
-helm install gemfire-operator "gemfire-operator-$operator_version.tgz" --namespace $namespace
-helm ls --namespace $namespace
+    echo "INSTALL GEMFIRE OPERATOR"
+    helm install gemfire-crd "gemfire-crd-$operator_version.tgz" --namespace $namespace --set operatorReleaseName=gemfire-operator
+    helm install gemfire-operator "gemfire-operator-$operator_version.tgz" --namespace $namespace
+    helm ls --namespace $namespace
+fi
 
 echo "CREATE $clustername CLUSTER"
 ytt -f gemfire-crd.yml \
