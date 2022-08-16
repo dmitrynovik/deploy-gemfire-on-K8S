@@ -12,7 +12,6 @@ create_role_binding=1
 install_helm=1
 install_cert_manager=1
 servers=1
-replicas=1
 storage=1Gi
 storageclassname=""
 
@@ -90,7 +89,6 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml cluster_name=$cluster_name \
      --data-value-yaml image="imageregistry.pivotal.io/tanzu-gemfire-for-kubernetes/gemfire-k8s:$gemfire_version" \
      --data-value-yaml servers=$servers \
-     --data-value-yaml replicas=$replicas \
      --data-value-yaml storage=$storage \
      --data-value-yaml storageclassname=$storageclassname \
      --data-value-yaml persistent=$persistent \
