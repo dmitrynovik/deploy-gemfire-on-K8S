@@ -13,3 +13,10 @@ spec:
         storageClassName: #@ data.values.storageclassname
         storage: #@ data.values.storage
     #@ end
+    resources:
+        requests:
+        cpu: #@ data.values.rabbitmq.cpu
+        memory: #@ data.values.rabbitmq.memory
+        limits:
+        cpu: #@ data.values.rabbitmq.cpu
+        memory: #@ data.values.rabbitmq.memory

@@ -13,8 +13,10 @@ install_helm=1
 install_cert_manager=1
 servers=1
 replicas=1
-storage=1Gi
+storage="1Gi"
 storageclassname=""
+memory="1Gi"
+cpu=1
 
 while [ $# -gt 0 ]; do
 
@@ -94,6 +96,8 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml storage=$storage \
      --data-value-yaml storageclassname=$storageclassname \
      --data-value-yaml persistent=$persistent \
+     --data-value-yaml memory=$memory \
+     --data-value-yaml cpu=$cpu \
      | $kubectl --namespace=$namespace apply -f-
 
 $kubectl -n $namespace get GemFireClusters
