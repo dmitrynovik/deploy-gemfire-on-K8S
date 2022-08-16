@@ -15,6 +15,7 @@ install_operator=1
 servers=1
 storage=1Gi
 storageclassname=""
+wait_pod_timeout=60s
 
 while [ $# -gt 0 ]; do
 
@@ -89,6 +90,10 @@ then
 fi
 
 echo "CREATE $clustername CLUSTER"
+
+$kubectl wait pods -n $namespace -l app.kubernetes.io/component=gemfire-controller-manager \
+     --for condition=Ready --timeout $wait_pod_timeout
+
 ytt -f gemfire-crd.yml \
      --data-value-yaml cluster_name=$cluster_name \
      --data-value-yaml image="registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:$gemfire_version" \
