@@ -87,7 +87,7 @@ helm ls --namespace $namespace
 echo "CREATE $clustername CLUSTER"
 ytt -f gemfire-crd.yml \
      --data-value-yaml cluster_name=$cluster_name \
-     --data-value-yaml image="imageregistry.pivotal.io/tanzu-gemfire-for-kubernetes/gemfire-k8s:$gemfire_version" \
+     --data-value-yaml image="registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:$gemfire_version" \
      --data-value-yaml servers=$servers \
      --data-value-yaml storage=$storage \
      --data-value-yaml storageclassname=$storageclassname \
