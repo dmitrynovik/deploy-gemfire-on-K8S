@@ -85,16 +85,11 @@ then
 
     echo "INSTALL GEMFIRE OPERATOR"
     set +e
-    helm install gemfire-crd "gemfire-crd-$operator_version.tgz" --namespace $namespace --set operatorReleaseName=gemfire-operator
-    helm install gemfire-operator "gemfire-operator-$operator_version.tgz" --namespace $namespace
+    helm install gemfire-crd "gemfire-crd-$operator_version.tgz" --namespace $namespace --set operatorReleaseName=gemfire-operator --wait
+    helm install gemfire-operator "gemfire-operator-$operator_version.tgz" --namespace $namespace --wait
     helm ls --namespace $namespace
     set -eo pipefail
 fi
-
-echo "WAIT FOR gemfire-controller-manager TO BE READY"
-$kubectl wait pods -n $namespace -l app.kubernetes.io/component=gemfire-controller-manager \
-     --for condition=Ready --timeout $wait_pod_timeout
-sleep 10
 
 echo "CREATE $clustername CLUSTER"
 ytt -f gemfire-crd.yml \
