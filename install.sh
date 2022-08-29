@@ -114,4 +114,6 @@ $kubectl -n $namespace get GemFireClusters
 # TODO: Parameterize the CRD definition:
 # https://docs.vmware.com/en/VMware-Tanzu-GemFire-for-Kubernetes/2.0/tgf-k8s/GUID-crd.html
 
+# TODO: Observability
+
 
