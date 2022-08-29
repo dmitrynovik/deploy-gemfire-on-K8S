@@ -84,11 +84,12 @@ then
     helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-operator" --version $operator_version --destination ./
 
     echo "INSTALL GEMFIRE OPERATOR"
-    set +e
     helm install gemfire-crd "gemfire-crd-$operator_version.tgz" --namespace $namespace --set operatorReleaseName=gemfire-operator --wait
     helm install gemfire-operator "gemfire-operator-$operator_version.tgz" --namespace $namespace --wait
     helm ls --namespace $namespace
-    set -eo pipefail
+
+    # TODO: better way of finding out the operator pod is running:
+    sleep 10
 fi
 
 echo "CREATE $clustername CLUSTER"
@@ -103,6 +104,14 @@ ytt -f gemfire-crd.yml \
 
 $kubectl -n $namespace get GemFireClusters
 
+# TODO Create a Load Balancer:
+# https://docs.vmware.com/en/VMware-Tanzu-GemFire-for-Kubernetes/2.0/tgf-k8s/GUID-create-and-delete.html#create-a-loadbalancer-service-5
 
+# TODO: enable aAuth
+# https://docs.vmware.com/en/VMware-Tanzu-GemFire-for-Kubernetes/2.0/tgf-k8s/GUID-security-authn_authz-introduction.html
+# https://docs.vmware.com/en/VMware-Tanzu-GemFire-for-Kubernetes/2.0/tgf-k8s/GUID-security-authn_authz-custom_authn_authz.html
+
+# TODO: Parameterize the CRD definition:
+# https://docs.vmware.com/en/VMware-Tanzu-GemFire-for-Kubernetes/2.0/tgf-k8s/GUID-crd.html
 
 
