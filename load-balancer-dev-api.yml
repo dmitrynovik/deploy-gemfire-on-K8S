@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: LB-SVC-DEV-API
+  name: load-balancer-dev-api
 spec:
   selector:
     gemfire.vmware.com/app: NAME-server
