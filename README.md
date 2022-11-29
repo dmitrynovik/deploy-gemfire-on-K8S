@@ -1,3 +1,14 @@
+## What is this?
+An attempt to automate an instllation of VMWare Gemfire on Kubernetes
+
+## Basic Usage
+```
+chmod +x install.sh
+
+./install.sh --vmwareuser <IMAGE REGISTRY USERNAME> --vmwarepassword <IMAGE REGISTRY PASSWORD>
+
+```
+
 ## Use after deployment
 
 If executed with default options:
