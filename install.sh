@@ -16,6 +16,8 @@ servers=1
 storage=1Gi
 storageclassname=""
 wait_pod_timeout=60s
+load_balancer_mgmt=1
+load_balancer_dev_api=1
 
 while [ $# -gt 0 ]; do
 
@@ -104,10 +106,20 @@ ytt -f gemfire-crd.yml \
 
 $kubectl -n $namespace get GemFireClusters
 
-# TODO Create a Load Balancer:
+# Create a Load Balancer:
 # https://docs.vmware.com/en/VMware-Tanzu-GemFire-for-Kubernetes/2.0/tgf-k8s/GUID-create-and-delete.html#create-a-loadbalancer-service-5
+# for mgmt:
+if [ $load_balancer_mgmt -eq 1 ]
+then
+     $kubectl -n $namespace apply -f load-balancer-mgmt.yml
+fi
+# for Dev API:
+if [ $load_balancer_dev_api -eq 1 ]
+then
+     $kubectl -n $namespace apply -f load-balancer-dev-api.yml
+fi
 
-# TODO: enable aAuth
+# TODO: enable Auth
 # https://docs.vmware.com/en/VMware-Tanzu-GemFire-for-Kubernetes/2.0/tgf-k8s/GUID-security-authn_authz-introduction.html
 # https://docs.vmware.com/en/VMware-Tanzu-GemFire-for-Kubernetes/2.0/tgf-k8s/GUID-security-authn_authz-custom_authn_authz.html
 

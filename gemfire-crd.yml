@@ -6,3 +6,7 @@ metadata:
     name: #@ data.values.cluster_name
 spec:
     image: #@ data.values.image
+    servers:
+        overrides:
+            gemFireProperties:
+                start-dev-rest-api: "true"
