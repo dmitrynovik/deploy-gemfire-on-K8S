@@ -111,12 +111,12 @@ $kubectl -n $namespace get GemFireClusters
 # for mgmt:
 if [ $load_balancer_mgmt -eq 1 ]
 then
-     $kubectl -n $namespace apply -f load-balancer-mgmt.yml
+     ytt -f load-balancer-mgmt.yml --data-value-yaml selector="$cluster_name-locator" | $kubectl -n $namespace apply -f-
 fi
 # for Dev API:
 if [ $load_balancer_dev_api -eq 1 ]
 then
-     $kubectl -n $namespace apply -f load-balancer-dev-api.yml
+     ytt -f load-balancer-dev-api.yml --data-value-yaml selector="$cluster_name-server" | $kubectl -n $namespace apply -f-
 fi
 
 # TODO: enable Auth
