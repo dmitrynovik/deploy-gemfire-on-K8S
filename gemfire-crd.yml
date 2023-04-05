@@ -29,6 +29,20 @@ spec:
 #@ end
     locators:
         replicas: #@ data.values.locators
+        resources:
+            requests:
+                memory: #@ data.values.locator_memory
+                cpu: #@ data.values.locator_cpu
+            limits:
+                memory: #@ data.values.locator_memory
+                cpu: #@ data.values.locator_cpu
+        persistentVolumeClaim:     
+            resources:               
+                requests:
+                    storage: #@ data.values.server_storage
+#@ if data.values.storage_class_name != "":
+            storageClassName: #@ data.values.storage_class_name
+#@ end
     servers:
         replicas: #@ data.values.servers
         libraries:

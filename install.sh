@@ -12,9 +12,6 @@ create_role_binding=1
 install_helm=1
 install_cert_manager=1
 install_operator=1
-server_cpu=1        # !Production: allocate more
-server_memory=1Gi # !Production: allocate more
-server_storage=1Gi  # !Production: allocate more
 storage_class_name=""
 wait_pod_timeout=60s
 load_balancer_mgmt=1
@@ -26,7 +23,13 @@ eviction_heap_percentage=-1
 enable_pdx=false
 tls_secret_name=""
 locators=1 # !Production: adjust!
+locator_cpu=1        # !Production: allocate more
+locator_memory=1Gi # !Production: allocate more
+locator_storage=1Gi  # !Production: allocate more
 servers=2  # !Production: adjust!
+server_cpu=1        # !Production: allocate more
+server_memory=1Gi # !Production: allocate more
+server_storage=1Gi  # !Production: allocate more
 
 while [ $# -gt 0 ]; do
 
@@ -111,6 +114,9 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml server_cpu=$server_cpu \
      --data-value-yaml server_memory=$server_memory \
      --data-value-yaml server_storage=$server_storage \
+     --data-value-yaml locator_cpu=$locator_cpu \
+     --data-value-yaml locator_memory=$locator_memory \
+     --data-value-yaml locator_storage=$locator_storage \
      --data-value-yaml storage_class_name=$storage_class_name \
      --data-value-yaml persistent=$persistent \
      --data-value-yaml anti_affinity_policy=$anti_affinity_policy \
