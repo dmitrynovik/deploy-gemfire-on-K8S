@@ -45,15 +45,15 @@ spec:
             jvmOptions: ["-Dgemfire-for-redis-enabled=true"]
         resources:
             requests:
-                memory: #@ data.values.memory
-                cpu: #@ data.values.cpu
+                memory: #@ data.values.server_memory
+                cpu: #@ data.values.server_cpu
             limits:
-                memory: #@ data.values.memory
-                cpu: #@ data.values.cpu
+                memory: #@ data.values.server_memory
+                cpu: #@ data.values.server_cpu
         persistentVolumeClaim:     
             resources:               
                 requests:
-                    storage: #@ data.values.storage
+                    storage: #@ data.values.server_storage
 #@ if data.values.storage_class_name != "":
             storageClassName: #@ data.values.storage_class_name
 #@ end
