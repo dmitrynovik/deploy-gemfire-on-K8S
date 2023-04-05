@@ -25,6 +25,7 @@ eviction_heap_percentage=-1
 enable_pdx=false
 tls_secret_name=""
 locators=1 # !Production: adjust!
+servers=2  # !Production: adjust!
 
 while [ $# -gt 0 ]; do
 
@@ -116,6 +117,7 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml enable_pdx=$enable_pdx \
      --data-value-yaml tls_secret_name=$tls_secret_name \
      --data-value-yaml locators=$locators \
+     --data-value-yaml servers=$servers \
      | $kubectl --namespace=$namespace apply -f-
 
 $kubectl -n $namespace get GemFireClusters

@@ -30,6 +30,7 @@ spec:
     locators:
         replicas: #@ data.values.locators
     servers:
+        replicas: #@ data.values.servers
         libraries:
             - name: gemfire-for-redis-apps
               container:
