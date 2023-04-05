@@ -6,6 +6,7 @@ metadata:
     name: #@ data.values.cluster_name
 spec:
     image: #@ data.values.image
+    antiAffinityPolicy: #@ data.values.anti_affinity_policy
     servers:
         libraries:
             - name: gemfire-for-redis-apps

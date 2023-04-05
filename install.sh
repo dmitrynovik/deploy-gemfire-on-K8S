@@ -13,11 +13,12 @@ install_helm=1
 install_cert_manager=1
 install_operator=1
 servers=1
-storage=1Gi
+storage=0.1Gi # !Production: allocae more memory
 storageclassname=""
 wait_pod_timeout=60s
 load_balancer_mgmt=1
 load_balancer_dev_api=1
+anti_affinity_policy=None # !Production: Set antiAffinityPolicy to "Cluster" or "Full"
 
 while [ $# -gt 0 ]; do
 
@@ -102,6 +103,7 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml storage=$storage \
      --data-value-yaml storageclassname=$storageclassname \
      --data-value-yaml persistent=$persistent \
+     --data-value-yaml anti_affinity_policy=$anti_affinity_policy \
      | $kubectl --namespace=$namespace apply -f-
 
 $kubectl -n $namespace get GemFireClusters
