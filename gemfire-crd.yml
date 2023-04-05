@@ -7,8 +7,16 @@ metadata:
 spec:
     image: #@ data.values.image
     servers:
+        libraries:
+            - name: gemfire-for-redis-apps
+              container:
+                    image: registry.tanzu.vmware.com/tanzu-gemfire-for-redis-apps/gemfire-for-redis-apps:1.0.1
+                    path: "/gemfire-for-redis-apps/*"
+                    imagePullSecretRef:
+                        name: image-pull-secret
         overrides:
             gemFireProperties:
                 - name : "start-dev-rest-api"
                   value : "true"
+            jvmOptions: ["-Dgemfire-for-redis-enabled=true"]
 

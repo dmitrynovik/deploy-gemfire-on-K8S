@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gemfire-for-redis
+spec:
+  selector:
+      gemfire.vmware.com/app: gemfire-cluster-server
+  ports:
+    - name: redis-port
+      port: 6379
+      targetPort: 6379
+      protocol: TCP
+  type: LoadBalancer
+
+
