@@ -11,7 +11,7 @@ spec:
     ingress:
         gatewayName: #@ data.values.ingress_gateway_name
 #@ end
-    resourceMananager:
+    resourceManager:
 #@ if data.values.critical_heap_percentage > 0:
         criticalHeapPercentage: #@ data.values.critical_heap_percentage
 #@ end
