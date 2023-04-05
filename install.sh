@@ -20,6 +20,8 @@ load_balancer_mgmt=1
 load_balancer_dev_api=1
 anti_affinity_policy=None # !Production: Set antiAffinityPolicy to "Cluster" or "Full"
 ingress_gateway_name=""
+critical_heap_percentage=-1
+eviction_heap_percentage=-1
 
 while [ $# -gt 0 ]; do
 
@@ -106,6 +108,8 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml persistent=$persistent \
      --data-value-yaml anti_affinity_policy=$anti_affinity_policy \
      --data-value-yaml ingress_gateway_name=$ingress_gateway_name \
+     --data-value-yaml critical_heap_percentage=$critical_heap_percentage \
+     --data-value-yaml eviction_heap_percentage=$eviction_heap_percentage \
      | $kubectl --namespace=$namespace apply -f-
 
 $kubectl -n $namespace get GemFireClusters

@@ -11,6 +11,13 @@ spec:
     ingress:
         gatewayName: #@ data.values.ingress_gateway_name
 #@ end
+    resourceMananager:
+#@ if data.values.critical_heap_percentage > 0:
+        criticalHeapPercentage: #@ data.values.critical_heap_percentage
+#@ end
+#@ if data.values.eviction_heap_percentage > 0:
+        evictionHeapPercentage: #@ data.values.eviction_heap_percentage
+#@ end
     servers:
         libraries:
             - name: gemfire-for-redis-apps
