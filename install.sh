@@ -12,9 +12,10 @@ create_role_binding=1
 install_helm=1
 install_cert_manager=1
 install_operator=1
-servers=1
-storage=0.1Gi # !Production: allocae more memory
-storageclassname=""
+cpu=1        # !Production: allocate more
+memory=1Gi # !Production: allocate more
+storage=1Gi  # !Production: allocate more
+storage_class_name=""
 wait_pod_timeout=60s
 load_balancer_mgmt=1
 load_balancer_dev_api=1
@@ -54,7 +55,7 @@ then
      exit 1
 fi
 
-if [ -z $storageclassname ]; then persistent=0; else persistent=1; fi
+if [ -z $storage_class_name ]; then persistent=0; else persistent=1; fi
 
 echo "CREATE NAMESPACE $namespace if it does not exist..."
 $kubectl create namespace $namespace --dry-run=client -o yaml | $kubectl apply -f-
@@ -107,8 +108,10 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml cluster_name=$cluster_name \
      --data-value-yaml image="registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:$gemfire_version" \
      --data-value-yaml servers=$servers \
+     --data-value-yaml cpu=$cpu \
+     --data-value-yaml memory=$memory \
      --data-value-yaml storage=$storage \
-     --data-value-yaml storageclassname=$storageclassname \
+     --data-value-yaml storage_class_name=$storage_class_name \
      --data-value-yaml persistent=$persistent \
      --data-value-yaml anti_affinity_policy=$anti_affinity_policy \
      --data-value-yaml ingress_gateway_name=$ingress_gateway_name \

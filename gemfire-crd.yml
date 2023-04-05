@@ -43,4 +43,18 @@ spec:
                 - name : "start-dev-rest-api"
                   value : "true"
             jvmOptions: ["-Dgemfire-for-redis-enabled=true"]
+        resources:
+            requests:
+                memory: #@ data.values.memory
+                cpu: #@ data.values.cpu
+            limits:
+                memory: #@ data.values.memory
+                cpu: #@ data.values.cpu
+        persistentVolumeClaim:     
+            resources:               
+                requests:
+                    storage: #@ data.values.storage
+#@ if data.values.storage_class_name != "":
+            storageClassName: #@ data.values.storage_class_name
+#@ end
 
