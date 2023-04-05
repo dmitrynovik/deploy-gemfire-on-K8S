@@ -7,6 +7,10 @@ metadata:
 spec:
     image: #@ data.values.image
     antiAffinityPolicy: #@ data.values.anti_affinity_policy
+#@ if data.values.ingress_gateway_name != "":
+    ingress:
+        gatewayName: #@ data.values.ingress_gateway_name
+#@ end
     servers:
         libraries:
             - name: gemfire-for-redis-apps

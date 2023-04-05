@@ -5,7 +5,7 @@ serviceaccount=rabbitmq
 namespace="tanzu-gemfire"
 kubectl=kubectl
 registry="registry.tanzu.vmware.com"
-operator_version="2.1.0"
+operator_version="2.2.0"
 gemfire_version="9.15.0"
 cluster_name="gemfire-cluster"
 create_role_binding=1
@@ -19,6 +19,7 @@ wait_pod_timeout=60s
 load_balancer_mgmt=1
 load_balancer_dev_api=1
 anti_affinity_policy=None # !Production: Set antiAffinityPolicy to "Cluster" or "Full"
+ingress_gateway_name=""
 
 while [ $# -gt 0 ]; do
 
@@ -104,6 +105,7 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml storageclassname=$storageclassname \
      --data-value-yaml persistent=$persistent \
      --data-value-yaml anti_affinity_policy=$anti_affinity_policy \
+     --data-value-yaml ingress_gateway_name=$ingress_gateway_name \
      | $kubectl --namespace=$namespace apply -f-
 
 $kubectl -n $namespace get GemFireClusters
