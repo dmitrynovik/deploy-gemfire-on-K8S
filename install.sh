@@ -22,6 +22,7 @@ anti_affinity_policy=None # !Production: Set antiAffinityPolicy to "Cluster" or 
 ingress_gateway_name=""
 critical_heap_percentage=-1
 eviction_heap_percentage=-1
+enable_pdx=false
 
 while [ $# -gt 0 ]; do
 
@@ -110,6 +111,7 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml ingress_gateway_name=$ingress_gateway_name \
      --data-value-yaml critical_heap_percentage=$critical_heap_percentage \
      --data-value-yaml eviction_heap_percentage=$eviction_heap_percentage \
+     --data-value-yaml enable_pdx=$enable_pdx \
      | $kubectl --namespace=$namespace apply -f-
 
 $kubectl -n $namespace get GemFireClusters

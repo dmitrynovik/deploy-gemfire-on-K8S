@@ -18,6 +18,9 @@ spec:
 #@ if data.values.eviction_heap_percentage > 0:
         evictionHeapPercentage: #@ data.values.eviction_heap_percentage
 #@ end
+    serialization:
+        pdx:            
+            readSerialized: #@ data.values.enable_pdx
     servers:
         libraries:
             - name: gemfire-for-redis-apps
