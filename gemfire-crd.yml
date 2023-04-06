@@ -6,7 +6,45 @@ metadata:
     name: #@ data.values.cluster_name
 spec:
     image: #@ data.values.image
+    antiAffinityPolicy: #@ data.values.anti_affinity_policy
+#@ if data.values.ingress_gateway_name != "":
+    ingress:
+        gatewayName: #@ data.values.ingress_gateway_name
+#@ end
+    resourceManager:
+#@ if data.values.critical_heap_percentage > 0:
+        criticalHeapPercentage: #@ data.values.critical_heap_percentage
+#@ end
+#@ if data.values.eviction_heap_percentage > 0:
+        evictionHeapPercentage: #@ data.values.eviction_heap_percentage
+#@ end
+    serialization:
+        pdx:            
+            readSerialized: #@ data.values.enable_pdx
+    security:
+#@ if data.values.tls_secret_name!= "":
+        tls:
+            secretName: #@ data.values.tls_secret_name
+            clientAuthenticationRequired: true
+#@ end
+    locators:
+        replicas: #@ data.values.locators
+        resources:
+            requests:
+                memory: #@ data.values.locator_memory
+                cpu: #@ data.values.locator_cpu
+            limits:
+                memory: #@ data.values.locator_memory
+                cpu: #@ data.values.locator_cpu
+        persistentVolumeClaim:     
+            resources:               
+                requests:
+                    storage: #@ data.values.server_storage
+#@ if data.values.storage_class_name != "":
+            storageClassName: #@ data.values.storage_class_name
+#@ end
     servers:
+        replicas: #@ data.values.servers
         libraries:
             - name: gemfire-for-redis-apps
               container:
@@ -19,4 +57,18 @@ spec:
                 - name : "start-dev-rest-api"
                   value : "true"
             jvmOptions: ["-Dgemfire-for-redis-enabled=true"]
+        resources:
+            requests:
+                memory: #@ data.values.server_memory
+                cpu: #@ data.values.server_cpu
+            limits:
+                memory: #@ data.values.server_memory
+                cpu: #@ data.values.server_cpu
+        persistentVolumeClaim:     
+            resources:               
+                requests:
+                    storage: #@ data.values.server_storage
+#@ if data.values.storage_class_name != "":
+            storageClassName: #@ data.values.storage_class_name
+#@ end
 
