@@ -17,12 +17,12 @@ chmod +x install.sh
 
 Subsequent installation (create or modify cluster only):
 ```
-./install.sh --registryuser <IMAGE REGISTRY USERNAME> \ 
-    --registrypassword <IMAGE REGISTRY PASSWORD> \
+./install.sh \ 
     --install_helm 0 \
     --install_cert_manager 0 \
     --create_role_binding 0 \
-    --install_operator 0
+    --install_operator 0 \
+    --install_carvel 0
 ```
 
 ## Pre-requisites parameters (optional)

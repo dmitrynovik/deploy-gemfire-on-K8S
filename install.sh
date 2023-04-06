@@ -31,6 +31,7 @@ servers=2  # !Production: adjust!
 server_cpu=1        # !Production: allocate more
 server_memory=1Gi # !Production: allocate more
 server_storage=1Gi  # !Production: allocate more
+extensions_enable_redis=0
 
 while [ $# -gt 0 ]; do
 
@@ -73,10 +74,12 @@ fi
 echo "CREATE NAMESPACE $namespace if it does not exist..."
 $kubectl create namespace $namespace --dry-run=client -o yaml | $kubectl apply -f-
 
-echo "CREATE DOCKER REGISTRY SECRET"
-$kubectl create secret docker-registry image-pull-secret --namespace=$namespace --docker-server=$registry \
-     --docker-username="$registryuser" --docker-password="$registrypassword" --dry-run=client -o yaml \
-     | $kubectl apply -f-
+if [ $registrypassword != "" ] && [ $registryuser != "" ]; then
+     echo "CREATE DOCKER REGISTRY SECRET"
+     $kubectl create secret docker-registry image-pull-secret --namespace=$namespace --docker-server=$registry \
+          --docker-username="$registryuser" --docker-password="$registrypassword" --dry-run=client -o yaml \
+          | $kubectl apply -f-
+fi
 
 if [ $create_role_binding -eq 1 ]
 then
@@ -148,6 +151,7 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml tls_secret_name=$tls_secret_name \
      --data-value-yaml locators=$locators \
      --data-value-yaml servers=$servers \
+     --data-value-yaml extensions_enable_redis=$extensions_enable_redis \
      | $kubectl --namespace=$namespace apply -f-
 
 $kubectl -n $namespace get GemFireClusters

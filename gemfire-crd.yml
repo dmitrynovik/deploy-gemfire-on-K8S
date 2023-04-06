@@ -46,17 +46,21 @@ spec:
     servers:
         replicas: #@ data.values.servers
         libraries:
+        #@ if data.values.extensions_enable_redis == 1:
             - name: gemfire-for-redis-apps
               container:
                     image: registry.tanzu.vmware.com/tanzu-gemfire-for-redis-apps/gemfire-for-redis-apps:1.0.1
                     path: "/gemfire-for-redis-apps/*"
                     imagePullSecretRef:
                         name: image-pull-secret
+        #@ end
         overrides:
             gemFireProperties:
                 - name : "start-dev-rest-api"
                   value : "true"
+        #@ if data.values.extensions_enable_redis == 1:
             jvmOptions: ["-Dgemfire-for-redis-enabled=true"]
+        #@ end
         resources:
             requests:
                 memory: #@ data.values.server_memory
