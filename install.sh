@@ -1,6 +1,7 @@
 set -eo pipefail
 
 # Parameters with default values (can override):
+install_carvel=1
 serviceaccount=rabbitmq
 namespace="tanzu-gemfire"
 kubectl=kubectl
@@ -45,6 +46,29 @@ case $kubectl in
     "oc") openshift=1 ;;
     *) openshift=0 ;;
 esac
+
+if [ $install_carvel -gt 0 ]
+then
+     if command -v shasum &> /dev/null
+     then
+          if command -v wget &> /dev/null
+          then
+               echo "INSTALLING CARVEL USING wget"
+               wget -O- https://carvel.dev/install.sh | bash
+          elif command -v curl &> /dev/null
+          then
+               echo "INSTALLING CARVEL USING curl"
+               curl -L https://carvel.dev/install.sh | bash
+          else
+               echo "Error: neither wget nor curl detected"
+               exit 1
+          fi
+     else
+          echo "WARNING: shasum IS MISSING !"
+          chmod +x install_carvel.sh
+          ./install_carvel.sh
+     fi
+fi
 
 echo "CREATE NAMESPACE $namespace if it does not exist..."
 $kubectl create namespace $namespace --dry-run=client -o yaml | $kubectl apply -f-
