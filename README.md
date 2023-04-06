@@ -1,5 +1,10 @@
 ## What is this?
-An attempt to automate an instllation of VMWare Gemfire on Kubernetes
+An attempt to automate an online instllation of VMWare Gemfire on Kubernetes, which includes
+* Prerequisistes (e.g. `helm`, `cert-manager` etc.)
+* Role binding
+* Image pull
+* Kubernetes operator installation
+* Passing optional configuration parameters e.g. number of locators, servers, cpu, memory etc.
 
 ## Basic Usage
 ```
