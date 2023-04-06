@@ -46,26 +46,12 @@ case $kubectl in
     *) openshift=0 ;;
 esac
 
-if [ -z $vmwareuser ]
-then
-     echo "vmwareuser not set"
-     exit 1
-fi
-
-if [ -z $vmwarepassword ] 
-then
-     echo "vmwarepassword not set"
-     exit 1
-fi
-
-if [ -z $storage_class_name ]; then persistent=0; else persistent=1; fi
-
 echo "CREATE NAMESPACE $namespace if it does not exist..."
 $kubectl create namespace $namespace --dry-run=client -o yaml | $kubectl apply -f-
 
 echo "CREATE DOCKER REGISTRY SECRET"
 $kubectl create secret docker-registry image-pull-secret --namespace=$namespace --docker-server=$registry \
-     --docker-username="$vmwareuser" --docker-password="$vmwarepassword" --dry-run=client -o yaml \
+     --docker-username="$registryuser" --docker-password="$registrypassword" --dry-run=client -o yaml \
      | $kubectl apply -f-
 
 if [ $create_role_binding -eq 1 ]
@@ -91,9 +77,21 @@ fi
 
 if [ $install_operator -eq 1 ]
 then
+     if [ -z $registryuser ]
+     then
+          echo "registryuser not set"
+          exit 1
+     fi
+
+     if [ -z $registrypassword ] 
+     then
+          echo "registrypassword not set"
+          exit 1
+     fi
+
     echo "CONNECTING TO REGISTRY: $registry"
     export HELM_EXPERIMENTAL_OCI=1
-    helm registry login -u $vmwareuser -p $vmwarepassword registry.tanzu.vmware.com
+    helm registry login -u $registryuser -p $registrypassword $registry
     helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-crd" --version $operator_version --destination ./
     helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-operator" --version $operator_version --destination ./
 
@@ -118,7 +116,6 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml locator_memory=$locator_memory \
      --data-value-yaml locator_storage=$locator_storage \
      --data-value-yaml storage_class_name=$storage_class_name \
-     --data-value-yaml persistent=$persistent \
      --data-value-yaml anti_affinity_policy=$anti_affinity_policy \
      --data-value-yaml ingress_gateway_name=$ingress_gateway_name \
      --data-value-yaml critical_heap_percentage=$critical_heap_percentage \

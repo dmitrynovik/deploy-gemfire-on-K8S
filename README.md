@@ -5,13 +5,13 @@ An attempt to automate an instllation of VMWare Gemfire on Kubernetes
 ```
 chmod +x install.sh
 
-./install.sh --vmwareuser <IMAGE REGISTRY USERNAME> --vmwarepassword <IMAGE REGISTRY PASSWORD>
+./install.sh --registryuser <IMAGE REGISTRY USERNAME> --registrypassword <IMAGE REGISTRY PASSWORD>
 
 ```
 
 Subsequent installation (create or modify cluster only):
 ```
-./install.sh --vmwareuser <IMAGE REGISTRY USERNAME> --vmwarepassword <IMAGE REGISTRY PASSWORD> --install_helm 0 --install_cert_manager 0 --create_role_binding 0 --install_operator 0
+./install.sh --registryuser <IMAGE REGISTRY USERNAME> --registrypassword <IMAGE REGISTRY PASSWORD> --install_helm 0 --install_cert_manager 0 --create_role_binding 0 --install_operator 0
 ```
 
 ## Use after deployment
