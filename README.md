@@ -36,27 +36,27 @@ Subsequent installation (create or modify cluster only):
 
 ## Gemfire configuration parameters (optional)
 | Parameter                | Default Value   | Meaning |
-|:------------------       |:--------------  |:--------|
-| operator_version         | "2.2.0"         | The version of Kubernetes GemFire operator |
-| gemfire_version          | "9.15.0"        | The GemFire version |
-| cluster_name             | "gemfire-cluster| The name of GemFire cluster to create |
-| storage_class_name       | ""              | If specified, the storage class name to use |
-| load_balancer_mgmt       | 1               | If to create the load balancer service for the management API |
-| load_balancer_dev_api    | 1               | If to create the load balancer service for the Developer API |
-| anti_affinity_policy     | None            | To be set to "Cluster" of "Full" in Production |
-| ingress_gateway_name     | ""              | If specified, ingress gateway name to use |
-| critical_heap_percentage | -1              | If > 0, `criticalHeapPercentage` to use |
-| eviction_heap_percentage | -1              | If > 0, `evictionHeapPercentage` to use |
-| enable_pdx               | false           | Enable or disable the Pdx serialization |
-| tls_secret_name          | ""              | If specified, enables TLS and specifies the secret name to use |
-| locators                 | 1               | The number of locators replica to create |
-| locator_cpu              | 1               | The CPUs per locator |
-| locator_memory           | 1Gi             | The amount of memory per locator |
-| locator_storage          | 1Gi             | The amount of storage per locator |
-| servers                  | 2               | The number of servers replica to create |
-| server_cpu               | 1               | The CPUs per server |
-| server_memory            | 1Gi             | The amount of memory per server |
-| server_storage           | 1Gi             | The amount of storage per server |
+|:------------------       |:--------------   |:--------|
+| operator_version         | `2.2.0`          | The version of Kubernetes GemFire operator |
+| gemfire_version          | `9.15.0`         | The GemFire version |
+| cluster_name             | `gemfire-cluster`| The name of GemFire cluster to create |
+| storage_class_name       | ""               | If specified, the storage class name to use |
+| load_balancer_mgmt       | `1`              | If to create the load balancer service for the management API |
+| load_balancer_dev_api    | `1`              | If to create the load balancer service for the Developer API |
+| anti_affinity_policy     | `None`           | To be set to `Cluster` of `Full` in Production |
+| ingress_gateway_name     | ""               | If specified, ingress gateway name to use |
+| critical_heap_percentage | `-1`             | If > 0, `criticalHeapPercentage` to use |
+| eviction_heap_percentage | `-1`             | If > 0, `evictionHeapPercentage` to use |
+| enable_pdx               | `false`          | Enable or disable the Pdx serialization |
+| tls_secret_name          | ""               | If specified, enables TLS and specifies the secret name to use |
+| locators                 | `1`              | The number of locators replica to create |
+| locator_cpu              | `1`              | The CPUs per locator |
+| locator_memory           | `1Gi`            | The amount of memory per locator |
+| locator_storage          | `1Gi`            | The amount of storage per locator |
+| servers                  | `2`              | The number of servers replica to create |
+| server_cpu               | `1`              | The CPUs per server |
+| server_memory            | `1Gi`            | The amount of memory per server |
+| server_storage           | `1Gi`            | The amount of storage per server |
 
 ## Use after deployment
 
