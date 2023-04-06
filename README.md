@@ -47,7 +47,7 @@ Subsequent installation (create or modify cluster only):
 | ingress_gateway_name     | ""              | If specified, ingress gateway name to use |
 | critical_heap_percentage | -1              | If > 0, `criticalHeapPercentage` to use |
 | eviction_heap_percentage | -1              | If > 0, `evictionHeapPercentage` to use |
-| enable_pdx               | false           | `true|false` to enable or disable the Pdx serialization |
+| enable_pdx               | false           | Enable or disable the Pdx serialization |
 | tls_secret_name          | ""              | If specified, enables TLS and specifies the secret name to use |
 | locators                 | 1               | The number of locators replica to create |
 | locator_cpu              | 1               | The CPUs per locator |
