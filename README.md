@@ -29,10 +29,10 @@ Subsequent installation (create or modify cluster only):
 
 | Parameter           | Default Value | Meaning |
 |:------------------  |:--------------|:--------|
-| install_carvel      | 1             | if to install helm (must be 1 if N/A since we need the `ytt`) |
-| install_helm        | 1             | if to install helm (must be 1 N/A) |
-| install_cert_manager| 1             | if to install cert_manager (must be 1 if N/A) |
-| install_operator    | 1             | if to install Kubernetes GemFire operator (must be 1 if N/A) |
+| install_carvel      | `1`           | if to install helm (must be 1 if N/A since we need the `ytt`) |
+| install_helm        | `1`           | if to install helm (must be 1 N/A) |
+| install_cert_manager| `1`           | if to install cert_manager (must be 1 if N/A) |
+| install_operator    | `1`           | if to install Kubernetes GemFire operator (must be 1 if N/A) |
 
 ## Gemfire configuration parameters (optional)
 | Parameter                | Default Value   | Meaning |
