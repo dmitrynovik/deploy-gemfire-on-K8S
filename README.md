@@ -57,7 +57,7 @@ Subsequent installation (create or modify cluster only):
 | server_cpu               | `1`              | The CPUs per server |
 | server_memory            | `1Gi`            | The amount of memory per server |
 | server_storage           | `1Gi`            | The amount of storage per server |
-| extensions_enable_redis  | 0                | If to enable the Redis API
+| extensions_enable_redis  | `0`              | If to enable the Redis API
 
 ## Use after deployment
 
