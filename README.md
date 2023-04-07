@@ -10,19 +10,13 @@ An attempt to automate an online instllation of VMWare Gemfire on Kubernetes, wh
 ```
 chmod +x install.sh
 
-./install.sh --registryuser <IMAGE REGISTRY USERNAME> \
-    --registrypassword <IMAGE REGISTRY PASSWORD>
+./install.sh --registryuser <IMAGE REGISTRY USERNAME> --registrypassword <IMAGE REGISTRY PASSWORD>
 
 ```
 
 Subsequent installation (create or modify cluster only):
 ```
-./install.sh \ 
-    --install_helm 0 \
-    --install_cert_manager 0 \
-    --create_role_binding 0 \
-    --install_operator 0 \
-    --install_carvel 0
+./install.sh --install_helm 0 --install_cert_manager 0 --create_role_binding 0 --install_operator 0 --install_carvel 0
 ```
 
 ## Pre-requisites parameters (optional)

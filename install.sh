@@ -32,6 +32,7 @@ server_cpu=1        # !Production: allocate more
 server_memory=1Gi # !Production: allocate more
 server_storage=1Gi  # !Production: allocate more
 extensions_enable_redis=0
+enable_ingress=1
 
 while [ $# -gt 0 ]; do
 
@@ -74,7 +75,7 @@ fi
 echo "CREATE NAMESPACE $namespace if it does not exist..."
 $kubectl create namespace $namespace --dry-run=client -o yaml | $kubectl apply -f-
 
-if [ $registrypassword != "" ] && [ $registryuser != "" ]; then
+if [[ $registrypassword != ""  && $registryuser != "" ]]; then
      echo "CREATE DOCKER REGISTRY SECRET"
      $kubectl create secret docker-registry image-pull-secret --namespace=$namespace --docker-server=$registry \
           --docker-username="$registryuser" --docker-password="$registrypassword" --dry-run=client -o yaml \
@@ -131,6 +132,17 @@ then
     sleep 10
 fi
 
+if [ $enable_ingress -eq 1 ] 
+then
+     $kubectl apply -f https://projectcontour.io/quickstart/contour-gateway-provisioner.yaml --wait
+     $kubectl --namespace projectcontour get deployments
+
+     $kubectl apply -f ingress-gateway.yml --namespace=$namespace --wait
+     ingress_gateway_name="gemfire-gateway"
+     echo "WAITING TOR THE GATEWAY $ingress_gateway_name TO BE READY"
+     $kubectl wait --for=condition=programmed gateway $ingress_gateway_name --namespace=$namespace --timeout=60s
+fi
+
 echo "CREATE $clustername CLUSTER"
 ytt -f gemfire-crd.yml \
      --data-value-yaml cluster_name=$cluster_name \
@@ -152,7 +164,7 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml locators=$locators \
      --data-value-yaml servers=$servers \
      --data-value-yaml extensions_enable_redis=$extensions_enable_redis \
-     | $kubectl --namespace=$namespace apply -f-
+     | $kubectl --namespace=$namespace apply -f- --wait
 
 $kubectl -n $namespace get GemFireClusters
 
