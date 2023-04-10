@@ -5,6 +5,7 @@ An attempt to automate an online instllation of VMWare Gemfire on Kubernetes, wh
 * Image pull
 * Kubernetes operator installation
 * Passing optional configuration parameters e.g. number of locators, servers, cpu, memory etc.
+* Enable the ingress for an outside-of-Kubernetes access, if needed
 * Enabling the Redis API, if desired
 
 ## To Run this, you'll need
