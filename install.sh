@@ -33,6 +33,8 @@ server_memory=1Gi # !Production: allocate more
 server_storage=1Gi  # !Production: allocate more
 extensions_enable_redis=0
 enable_ingress=1
+gateway_class_name="gemfire-contour-gateway-class"
+gateway_name="gemfire-gateway"
 
 while [ $# -gt 0 ]; do
 
@@ -137,10 +139,18 @@ then
      $kubectl apply -f https://projectcontour.io/quickstart/contour-gateway-provisioner.yaml --wait
      $kubectl --namespace projectcontour get deployments
 
-     $kubectl apply -f ingress-gateway.yml --namespace=$namespace --wait
-     ingress_gateway_name="gemfire-gateway"
-     echo "WAITING TOR THE GATEWAY $ingress_gateway_name TO BE READY"
-     $kubectl wait --for=condition=programmed gateway $ingress_gateway_name --namespace=$namespace --timeout=60s
+     if [ -z $ingress_gateway_name ]
+     then
+          ingress_gateway_name="gemfire-gateway"
+     fi
+
+     echo "CREATING GATEWAY $ingress_gateway_name & WAITING FOR IT TO BE READY"
+     ytt -f ingress-gateway.yml \
+          --data-value-yaml gateway_class_name=$gateway_class_name \
+          --data-value-yaml gateway_name=$gateway_name \
+     |  $kubectl apply -f- --wait
+
+      $kubectl wait --for=condition=programmed gateway $ingress_gateway_name --namespace=$namespace --timeout=60s
 fi
 
 echo "CREATE $clustername CLUSTER"
