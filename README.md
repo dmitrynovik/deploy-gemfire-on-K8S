@@ -8,7 +8,7 @@ An attempt to automate an online instllation of VMWare Gemfire on Kubernetes, wh
 * Enabling the Redis API, if desired
 
 ## To Run this, you'll need
-* `kubectl' installed and pointing to a Kubernetes cluster.
+* `kubectl` installed and pointing to a Kubernetes cluster.
 
 ## Basic Usage
 ```
