@@ -6,6 +6,10 @@ An attempt to automate an online instllation of VMWare Gemfire on Kubernetes, wh
 * Kubernetes operator installation
 * Passing optional configuration parameters e.g. number of locators, servers, cpu, memory etc.
 * Enabling the Redis API, if desired
+
+## To Run this, you'll need
+* `kubectl' installed and pointing to a Kubernetes cluster.
+
 ## Basic Usage
 ```
 chmod +x install.sh
