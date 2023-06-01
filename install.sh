@@ -148,7 +148,7 @@ then
      ytt -f ingress-gateway.yml \
           --data-value-yaml gateway_class_name=$gateway_class_name \
           --data-value-yaml gateway_name=$gateway_name \
-     |  $kubectl apply -f- --wait
+     |  $kubectl apply -f-  --namespace=$namespace  --wait
 
       $kubectl wait --for=condition=programmed gateway $ingress_gateway_name --namespace=$namespace --timeout=60s
 fi
