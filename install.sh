@@ -122,8 +122,8 @@ then
     echo "CONNECTING TO REGISTRY: $registry"
     export HELM_EXPERIMENTAL_OCI=1
     helm registry login -u $registryuser -p $registrypassword $registry
-    helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-crd" --version $operator_version --destination ./
-    helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-operator" --version $operator_version --destination ./
+    helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-crd" --version $operator_version --destination ./ --plain-http
+    helm pull "oci://$registry/tanzu-gemfire-for-kubernetes/gemfire-operator" --version $operator_version --destination ./ --plain-http
 
     echo "INSTALL GEMFIRE OPERATOR"
     helm install gemfire-crd "gemfire-crd-$operator_version.tgz" --namespace $namespace --set operatorReleaseName=gemfire-operator --wait

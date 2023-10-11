@@ -4,5 +4,6 @@ get_helm.sh
 certs/
 
 local.txt
+cheat-sheet.md
 
 
