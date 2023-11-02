@@ -6,8 +6,8 @@ serviceaccount=rabbitmq
 namespace="tanzu-gemfire"
 kubectl=kubectl
 registry="registry.tanzu.vmware.com"
-operator_version="2.2.0"
-gemfire_version="9.15.0"
+operator_version="2.3.0"
+gemfire_version="10.0.1"
 cluster_name="gemfire-cluster"
 create_role_binding=1
 install_helm=1
@@ -27,7 +27,7 @@ locators=1 # !Production: adjust!
 locator_cpu=1        # !Production: allocate more
 locator_memory=1Gi # !Production: allocate more
 locator_storage=1Gi  # !Production: allocate more
-servers=2  # !Production: adjust!
+servers=1  # !Production: adjust!
 server_cpu=1        # !Production: allocate more
 server_memory=1Gi # !Production: allocate more
 server_storage=1Gi  # !Production: allocate more
@@ -150,7 +150,7 @@ then
           --data-value-yaml gateway_name=$gateway_name \
      |  $kubectl apply -f-  --namespace=$namespace  --wait
 
-      $kubectl wait --for=condition=programmed gateway $ingress_gateway_name --namespace=$namespace --timeout=60s
+      $kubectl wait --for=condition=programmed gateway $ingress_gateway_name --namespace=$namespace --timeout=120s
 fi
 
 echo "CREATE $clustername CLUSTER"
