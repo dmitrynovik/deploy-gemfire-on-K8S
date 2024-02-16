@@ -7,8 +7,8 @@ namespace="tanzu-gemfire"
 kubectl=kubectl
 registry="registry.tanzu.vmware.com"
 operator_version="2.3.0"
-gemfire_version="10.0.1"
-cluster_name="gemfire-cluster"
+gemfire_version="10.1.0"
+cluster_name="gemfire-cluster-1"
 create_role_binding=1
 install_helm=1
 install_cert_manager=1
@@ -35,6 +35,7 @@ extensions_enable_redis=0
 enable_ingress=1
 gateway_class_name="gemfire-contour-gateway-class"
 gateway_name="gemfire-gateway"
+log_disk_space_limit="'100'" # Space occupied by logs on servers, in Megabytes
 
 while [ $# -gt 0 ]; do
 
@@ -174,6 +175,7 @@ ytt -f gemfire-crd.yml \
      --data-value-yaml locators=$locators \
      --data-value-yaml servers=$servers \
      --data-value-yaml extensions_enable_redis=$extensions_enable_redis \
+     --data-value-yaml log_disk_space_limit=$log_disk_space_limit \
      | $kubectl --namespace=$namespace apply -f- --wait
 
 $kubectl -n $namespace get GemFireClusters
