@@ -56,8 +56,10 @@ spec:
         #@ end
         overrides:
             gemFireProperties:
-                - name : "start-dev-rest-api"
-                  value : "true"
+                - name: start-dev-rest-api
+                  value: "true"
+                - name: log-disk-space-limit
+                  value: #@ data.values.log_disk_space_limit
         #@ if data.values.extensions_enable_redis == 1:
             jvmOptions: ["-Dgemfire-for-redis-enabled=true"]
         #@ end
